@@ -197,18 +197,12 @@ def partition_dataset(sequence_length, data):
 x_train, y_train = partition_dataset(sequence_length, train_data)
 x_test, y_test = partition_dataset(sequence_length, test_data)
 
+import tensorflow 
 import keras
-from keras.models import Sequential
 
-model = Sequential()
+from tensorflow.keras.models import load_model
+model = load_model('lstm_model.h5')
 
-# Model with n_neurons = inputshape Timestamps, each with x_train.shape[2] variables
-n_neurons = x_train.shape[1] * x_train.shape[2]
-print(n_neurons, x_train.shape[1], x_train.shape[2])
-model.add(LSTM(n_neurons, return_sequences=True, input_shape=(x_train.shape[1], x_train.shape[2]))) 
-model.add(LSTM(n_neurons, return_sequences=False))
-model.add(Dense(5))
-model.add(Dense(1))
 
 # Compile the model
 model.compile(optimizer='adam', loss='mse')
