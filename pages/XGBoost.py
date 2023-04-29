@@ -26,8 +26,8 @@ import datetime
 
 
 st.subheader('Query parameters')
-start_date = st.date_input("Start date", datetime.date(2019, 1, 1))
-end_date = st.date_input("End date", datetime.date(2021, 1, 31))
+start_date = st.date_input("Start date", datetime.date(2021, 1, 1))
+end_date = st.date_input("End date", datetime.date(2023, 12, 31))
 
 # Retrieving tickers data
 ticker_list = pd.read_csv('https://raw.githubusercontent.com/dataprofessor/s-and-p-500-companies/master/data/constituents_symbols.txt')
@@ -122,24 +122,29 @@ fig = plt.figure(figsize=(12,6))
 
 plt.plot(y_test, marker='.', label="Actual Price")
 plt.plot(y_pred_XGB, 'r', label="XGBoost prediction")
-plt.ylabel('Stock Price ')
+plt.ylabel(' Price ')
 plt.xlabel('Time Step')
 plt.title('XGBoost forecasting for Stock Price')
 plt.legend()
 st.pyplot(fig)
 
 
+st.subheader('Next 10 days Predicted Closing Price')
+# Get the last date in the dataset
+last_date = dataset.index[-1]
 
-future_next_value =loaded_model.predict(X_test[-1:])
+# Create a list of dates for the next 10 days
+prediction_dates = pd.date_range(last_date, periods=10, freq='D')[1:]
 
-st.text_area('Next Days Closing Predicted Value :',future_next_value)
+# Generate predictions for the next 10 days
+prediction_list =loaded_model.predict(X_test[-9:])
+# Create a DataFrame to store the predictions
+predictions_df = pd.DataFrame({'Date': prediction_dates, 'Predicted Price': prediction_list})
 
-# Make a prediction for the next value
-prediction =loaded_model.predict(X_test)
-predictions = []
- # Append the prediction to the list
-predictions.append(prediction[0])
+# Set the date column as the index
+predictions_df.set_index('Date', inplace=True)
+# Reset the index before displaying the DataFrame in the table
+predictions_df.reset_index(inplace=True)
 
-# Extract the predicted value for the 10th day
-predicted_value_10th_day = predictions[-1]
-st.text_area('Future  10th Day Closing Predicted Value :',predicted_value_10th_day)
+# Display the predictions in a table
+st.table(predictions_df)
