@@ -197,7 +197,7 @@ def partition_dataset(sequence_length, data):
 x_train, y_train = partition_dataset(sequence_length, train_data)
 x_test, y_test = partition_dataset(sequence_length, test_data)
 
-
+import tensorflow
 from tensorflow.keras.models import load_model
 model = load_model('lstm_model.h5')
 epochs =  100#10
