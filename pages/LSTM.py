@@ -79,9 +79,9 @@ from pandas.plotting import register_matplotlib_converters # This function adds 
 import matplotlib.pyplot as plt # Important package for visualization - we use this to plot the market data
 import matplotlib.dates as mdates # Formatting dates
 from sklearn.metrics import mean_absolute_error, mean_squared_error # Packages for measuring model performance / errors
-#from keras.models import Sequential # Deep learning library, used for neural networks
-#from keras.layers import LSTM, Dense, Dropout # Deep learning classes for recurrent and regular densely-connected layers
-#from keras.callbacks import EarlyStopping # EarlyStopping during model training
+from keras.models import Sequential # Deep learning library, used for neural networks
+from keras.layers import LSTM, Dense, Dropout # Deep learning classes for recurrent and regular densely-connected layers
+from keras.callbacks import EarlyStopping # EarlyStopping during model training
 from sklearn.preprocessing import RobustScaler, MinMaxScaler # This Scaler removes the median and scales the data according to the quantile range to normalize the price data 
 import seaborn as sns
 
@@ -197,9 +197,18 @@ def partition_dataset(sequence_length, data):
 x_train, y_train = partition_dataset(sequence_length, train_data)
 x_test, y_test = partition_dataset(sequence_length, test_data)
 
-import tensorflow
-from tensorflow.keras.models import load_model
-model = load_model('lstm_model.h5')
+model = Sequential()
+
+# Model with n_neurons = inputshape Timestamps, each with x_train.shape[2] variables
+n_neurons = x_train.shape[1] * x_train.shape[2]
+print(n_neurons, x_train.shape[1], x_train.shape[2])
+model.add(LSTM(n_neurons, return_sequences=True, input_shape=(x_train.shape[1], x_train.shape[2]))) 
+model.add(LSTM(n_neurons, return_sequences=False))
+model.add(Dense(5))
+model.add(Dense(1))
+
+# Compile the model
+model.compile(optimizer='adam', loss='mse')
 epochs =  100#10
 batch_size = 16
 early_stop = EarlyStopping(monitor='loss', patience=5, verbose=1)
