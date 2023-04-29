@@ -204,16 +204,6 @@ from tensorflow.keras.models import load_model
 model = load_model('lstm_model.h5')
 
 
-# Compile the model
-model.compile(optimizer='adam', loss='mse')
-epochs =  2#10
-batch_size = 16
-early_stop = EarlyStopping(monitor='loss', patience=5, verbose=1)
-history = model.fit(x_train, y_train, 
-                    batch_size=batch_size, 
-                    epochs=epochs,
-                    validation_data=(x_test, y_test)
-                   )
 
 # Get the predicted values
 y_pred_scaled = model.predict(x_test)
@@ -222,37 +212,6 @@ y_pred_scaled = model.predict(x_test)
 y_pred = scaler_pred.inverse_transform(y_pred_scaled)
 y_test_unscaled = scaler_pred.inverse_transform(y_test.reshape(-1, 1))
 
-# # Root Mean Squared Error (RMSE)
-# rmse = np.sqrt(mean_squared_error(y_test, y_pred))
-# print(f'Root Mean Squared Error (RMSE): {rmse}')#np.round(rmse, 2)
-
-# #RMSE
-# print('Root Mean Squared Error (RMSE): %.4f'% np.sqrt(sum((y_pred-y_test_unscaled)**2)/len(y_test)))
-
-# # Mean Absolute Error (MAE)
-# MAE = mean_absolute_error(y_test_unscaled, y_pred)
-# print(f'Median Absolute Error (MAE): {np.round(MAE, 2)}')
-
-# # Mean Absolute Percentage Error (MAPE)
-# MAPE = np.mean((np.abs(np.subtract(y_test_unscaled, y_pred)/ y_test_unscaled))) * 100
-# print(f'Mean Absolute Percentage Error (MAPE): {np.round(MAPE, 2)} %')
-
-# # Median Absolute Percentage Error (MDAPE)
-# MDAPE = np.median((np.abs(np.subtract(y_test_unscaled, y_pred)/ y_test_unscaled)) ) * 100
-# print(f'Median Absolute Percentage Error (MDAPE): {np.round(MDAPE, 2)} %')
-
-#RMSE
-rmse = np.sqrt(mean_squared_error(y_test_unscaled, y_pred))
-# rmse = np.sqrt(mse)
-#print("Root Mean Squared Error (RMSE): {:.4f}".format(rmse))
-
-# Mean Absolute Percentage Error (MAPE)
-MAPE = np.mean((np.abs(np.subtract(y_test_unscaled, y_pred)/ y_test_unscaled))) * 100
-#print(f'Mean Absolute Percentage Error (MAPE): {np.round(MAPE, 2)} %')
-
-#R-squared
-r2 = r2_score(y_test_unscaled, y_pred)
-#print("R-squared score (R^2): {:.4f}".format(r2))
 
 
 from datetime import datetime as dt
