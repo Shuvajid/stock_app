@@ -199,7 +199,7 @@ x_test, y_test = partition_dataset(sequence_length, test_data)
 
 import keras
 from keras.models import Sequential
-from keras.layers import LSTM, Dense
+
 model = Sequential()
 
 # Model with n_neurons = inputshape Timestamps, each with x_train.shape[2] variables
