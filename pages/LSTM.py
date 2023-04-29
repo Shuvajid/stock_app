@@ -196,7 +196,7 @@ def partition_dataset(sequence_length, data):
 # Generate training data and test data
 x_train, y_train = partition_dataset(sequence_length, train_data)
 x_test, y_test = partition_dataset(sequence_length, test_data)
-
+from keras.models import Sequential
 model = Sequential()
 
 # Model with n_neurons = inputshape Timestamps, each with x_train.shape[2] variables
