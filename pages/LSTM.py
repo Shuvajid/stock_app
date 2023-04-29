@@ -206,7 +206,7 @@ model = load_model('lstm_model.h5')
 
 # Compile the model
 model.compile(optimizer='adam', loss='mse')
-epochs =  100#10
+epochs =  2#10
 batch_size = 16
 early_stop = EarlyStopping(monitor='loss', patience=5, verbose=1)
 history = model.fit(x_train, y_train, 
