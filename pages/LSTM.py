@@ -79,9 +79,9 @@ from pandas.plotting import register_matplotlib_converters # This function adds 
 import matplotlib.pyplot as plt # Important package for visualization - we use this to plot the market data
 import matplotlib.dates as mdates # Formatting dates
 from sklearn.metrics import mean_absolute_error, mean_squared_error # Packages for measuring model performance / errors
-from keras.models import Sequential # Deep learning library, used for neural networks
-from keras.layers import LSTM, Dense, Dropout # Deep learning classes for recurrent and regular densely-connected layers
-from keras.callbacks import EarlyStopping # EarlyStopping during model training
+#from keras.models import Sequential # Deep learning library, used for neural networks
+#from keras.layers import LSTM, Dense, Dropout # Deep learning classes for recurrent and regular densely-connected layers
+#from keras.callbacks import EarlyStopping # EarlyStopping during model training
 from sklearn.preprocessing import RobustScaler, MinMaxScaler # This Scaler removes the median and scales the data according to the quantile range to normalize the price data 
 import seaborn as sns
 
